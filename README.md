@@ -23,4 +23,4 @@ Run from folder `perlin_rust` in order to ensure that paths can be found!
 To change seed and other generation parameters you need to change the parameters in `perlin_rust/src/main.rs`.
 
 ### Example
-![Perlin Noise Example](plots/nuperl.pdf)
+![Perlin Noise Example](plots/nuperl.png)
