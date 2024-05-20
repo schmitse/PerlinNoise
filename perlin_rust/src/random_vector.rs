@@ -3,8 +3,7 @@ use rand::rngs::StdRng;
 use std::collections::HashMap;
 
 
-struct RandomVector{
-    seed: u64,
+pub struct RandomVector{
     rng: StdRng,
     cache: HashMap<(i32, i32), (f32, f32)>,
 }
@@ -13,7 +12,7 @@ impl RandomVector{
     pub fn new(seed: u64) -> RandomVector {
         let rng = StdRng::seed_from_u64(seed);
         let cache = HashMap::new();
-        RandomVector {seed, rng, cache}
+        RandomVector {rng, cache}
     }
 
     pub fn eval(&mut self, xp: f32, yp: f32, xx: i32, yy: i32) -> f32 {
@@ -25,8 +24,14 @@ impl RandomVector{
 
     fn get_random_gradient(&mut self, xx: i32, yy: i32) -> (f32, f32) {
         let key: (i32, i32) = (xx, yy);
-        let fcn = || self.generate_random();
-        *self.cache.entry(key).or_insert_with(fcn)
+
+        if let Some(&gradient) = self.cache.get(&key) {
+            return gradient;
+        }
+
+        let gradient = self.generate_random();
+        self.cache.insert(key, gradient);
+        gradient
     }
 
     fn generate_random(&mut self) -> (f32, f32) {
