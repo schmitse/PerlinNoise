@@ -6,8 +6,8 @@ pub struct Perlin {
 }
 
 pub fn rescale(input: Vec<f32>) -> Option<Vec<f32>> {
-    let min_val = input.iter().cloned().reduce(f32::min)?;
-    let max_val = input.iter().cloned().reduce(f32::max)?;
+    let min_val = input.iter().copied().reduce(f32::min)?;
+    let max_val = input.iter().copied().reduce(f32::max)?;
 
     let mut output: Vec<f32> = vec![0.0; input.len()];
 
