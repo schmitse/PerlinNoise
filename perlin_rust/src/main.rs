@@ -2,6 +2,7 @@ mod perlin;
 use std::fs::File;
 use std::io::{self, Write};
 use clap::Parser;
+use indicatif::{ProgressBar, ProgressStyle};
 
 #[derive(Parser, Debug)]
 #[clap(name = "PerlinNoise CLI")]
@@ -52,6 +53,11 @@ fn main() -> io::Result<()> {
     let mut perlin = perlin::Perlin::new(seed);
 
     let mut result: Vec<f32> = vec![0.0; (width * height) as usize];
+ 
+    let bar = ProgressBar::new((width) as u64);
+    bar.set_style(ProgressStyle::default_bar()
+        .template("{spinner:.green} [{elapsed_precise}] {bar:40.cyan/blue} {pos:>7}/{len:7} ({percent}%) {eta_precise} {msg}")
+        .progress_chars("█▒░"));  // ##-
 
     for x in 0..width { 
         for y in 0..height {
@@ -68,7 +74,9 @@ fn main() -> io::Result<()> {
             }
             result[index] = val;
         }
+        bar.inc(1);
     }
+    bar.finish_with_message("Completed");
 
     if let Some(output) = perlin::rescale(result) {
         let file_path = format!("../data/{}", args.name);
