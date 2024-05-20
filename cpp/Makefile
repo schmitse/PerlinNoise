@@ -2,7 +2,7 @@
 CXX = g++
 
 # Define compiler flags
-CXXFLAGS = -std=c++11 -Wall -Iinc
+CXXFLAGS = -std=c++11 -Wall -Iinc -I/opt/homebrew/Cellar/cli11/2.4.2/include
 
 # Define directories
 SRC_DIR = src
@@ -19,14 +19,18 @@ SRCS = $(SRC_DIR)/Perlin.cpp $(SRC_DIR)/RandomVector.cpp $(TARGET_DIR)/perlin.cp
 OBJS = $(SRCS:.cpp=.o)
 
 # Default target
-all: $(TARGET)
+all: $(TARGET_DIR) $(TARGET)
+
+# Rule to create target directory if it doesn't exist
+$(TARGET_DIR):
+	mkdir -p $(TARGET_DIR)
 
 # Rule to build the target executable
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
 # Rule to build object files
-%.o: %.cpp
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean up build files

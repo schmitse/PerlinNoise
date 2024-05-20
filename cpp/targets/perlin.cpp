@@ -1,21 +1,32 @@
 #include "Perlin.hpp"
 #include <iostream>
 #include <fstream>
+#include <CLI/CLI.hpp>
 
-
-int main() {
-
+int main(int argc, char **argv) {
+    // Default values
     int height = 1080;
     int width = 1920;
     int seed = 1337;
-    std::vector<float> values((height * width), 0.0);
-    // values.reserve((height * width));
+    float grid_size = 400.0;
+    int octaves = 8;
+    std::string output_file = "cpp.txt";
 
-    float grid_size = 400.;
+    // CLI11 parser setup
+    CLI::App app{"Perlin Noise Generator"};
+    
+    app.add_option("-H,--height", height, "Height of the grid")->default_val("1080");
+    app.add_option("-W,--width", width, "Width of the grid")->default_val("1920");
+    app.add_option("-s,--seed", seed, "Seed for the noise generator")->default_val("1337");
+    app.add_option("-g,--grid_size", grid_size, "Grid size for the noise")->default_val("400.0");
+    app.add_option("-o,--octaves", octaves, "Number of octaves for the noise")->default_val("8");
+    app.add_option("-n,--name", output_file, "Name of the output file")->default_val("cpp.txt");
+
+    CLI11_PARSE(app, argc, argv);
+
     float amplitude = 1.0;
     float frequency = 1.0;
-    int octaves = 8;
-
+    std::vector<float> values((height * width), 0.0);
     Perlin noiseCreator = Perlin(seed);
 
     for (int x = 0; x < width; x++) {
@@ -39,7 +50,7 @@ int main() {
     std::cout << "Had a total of " << noiseCreator.getCacheHits() << " cache hits." << std::endl;
 
     std::cout << "Saving results in outputfile.. " << std::endl;
-    std::ofstream file("/Users/schmitse/Templates/PerlinNoise/data/cpp.txt");
+    std::ofstream file(output_file);
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             int index = y * width + x;

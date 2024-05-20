@@ -12,7 +12,7 @@ This code is quite variable and offers a CLI.
 Noise generation with c++ using standard libraries. Not particularly well written or optimised, slower than the python code. 
 Build with `cd cpp` and `make`. Building generates a binary executable `cpp/targets/perlin`. 
 Run to generate perlin noise under `data/cpp.txt`. 
-To change seed and other generation parameters you need to change the parameters in `cpp/targets/perlin.cpp`. 
+CLI parameters are available similar to the other ones: `-H HEIGHT`, `-w WIDTH`, `-s SEED`, `-g GRID_SIZE`, `-o OCTAVES`, `-n NAME.txt`. 
 
 ## Rust
 
