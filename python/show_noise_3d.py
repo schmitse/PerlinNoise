@@ -23,6 +23,7 @@ def main() -> None:
     ys = np.linspace(0, yy - 1, yy)
     xs, ys = np.meshgrid(xs, ys)
     surf = ax.plot_surface(xs, ys, data, cmap='viridis')
+    ax.contour(xs, ys, data, 10, cmap='viridis', linestyles='solid', offset=-1)
 
     ax.set_xticks([])
     ax.set_yticks([])
