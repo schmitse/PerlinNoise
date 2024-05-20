@@ -79,7 +79,8 @@ fn main() -> io::Result<()> {
     bar.finish_with_message("Completed");
 
     if let Some(output) = perlin::rescale(result) {
-        let file_path = format!("../data/{}", args.name);
+        let file_path = format!("{}", args.name);
+        println!("Saving output to: {}", file_path);
         let mut file = File::create(file_path)?;
         for x in 0..width {
             for y in 0..height {

@@ -59,7 +59,6 @@ int main(int argc, char **argv) {
                 amplitude /= 2.;
                 frequency *= 2.;
             }
-            // values.push_back(val);
             values[index] = val;
         }
         bar.tick();
@@ -70,7 +69,7 @@ int main(int argc, char **argv) {
     std::vector<float> result = noiseCreator.rescale(values);
     std::cout << "Had a total of " << noiseCreator.getCacheHits() << " cache hits." << std::endl;
 
-    std::cout << "Saving results in outputfile.. " << std::endl;
+    std::cout << "Saving results in outputfile: " << output_file << std::endl;
     std::ofstream file(output_file);
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
