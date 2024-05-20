@@ -5,6 +5,20 @@ pub struct Perlin {
     rnd_vec: random_vector::RandomVector,
 }
 
+pub fn rescale(input: Vec<f32>) -> Option<Vec<f32>> {
+    let min_val = input.iter().cloned().reduce(f32::min)?;
+    let max_val = input.iter().cloned().reduce(f32::max)?;
+
+    let mut output: Vec<f32> = vec![0.0; input.len()];
+
+    for i in 0..input.len() {
+        let value = input[i];
+        output[i] = 2.0 * (value - min_val) / (max_val - min_val) - 1.0;
+    }
+
+    Some(output)
+}
+
 fn fade(val : f32) -> f32 {
     val * val * val * ( val * ( val * 6.0 - 15.0 ) + 10.0 )
 }

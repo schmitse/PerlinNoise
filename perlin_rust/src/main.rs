@@ -32,13 +32,17 @@ fn main() -> io::Result<()> {
         }
     }
 
-    let mut file = File::create("../data/rust.txt")?;
-    for x in 0..width {
-        for y in 0..height {
-            let index : usize = (y * width + x) as usize;
-            write!(file, "{} ", result[index])?;
+    if let Some(output) = perlin::rescale(result) {
+        let mut file = File::create("../data/rust.txt")?;
+        for x in 0..width {
+            for y in 0..height {
+                let index : usize = (y * width + x) as usize;
+                write!(file, "{} ", output[index])?;
+            }
+            write!(file, "\n")?;
         }
-        write!(file, "\n")?;
+    } else {
+        println!("No result vector provided!");
     }
     Ok(())
 }
