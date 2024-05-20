@@ -2,7 +2,7 @@
 CXX = g++
 
 # Define compiler flags
-CXXFLAGS = -std=c++11 -Wall -Iinc -I/opt/homebrew/Cellar/cli11/2.4.2/include
+CXXFLAGS = -std=c++11 -Wall -Iinc -I/opt/homebrew/Cellar/cli11/2.4.2/include -I/opt/homebrew/Cellar/indicators/2.3/include
 
 # Define directories
 SRC_DIR = src
