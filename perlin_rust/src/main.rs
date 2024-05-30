@@ -31,7 +31,7 @@ struct Cli {
     seed: u64,
 
     /// name for the output txt file
-    #[clap(short = 'n', long = "name", default_value = "rust.txt")]
+    #[clap(short = 'n', long = "name", default_value = "rust.npy")]
     name: String,
 }
 
@@ -62,7 +62,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     for x in 0..width { 
         for y in 0..height {
-            let index : usize = (y * width + x) as usize;
+            let index : usize = (x * height + y) as usize;
             let mut val : f32 = 0.0;
             let mut amplitude : f32 = 1.0;
             let mut frequency : f32 = 1.0;
