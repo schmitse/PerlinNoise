@@ -1,8 +1,9 @@
 mod perlin;
-use std::fs::File;
-use std::io::{self, Write};
 use clap::Parser;
 use indicatif::{ProgressBar, ProgressStyle};
+use ndarray::Array;
+use ndarray_npy::write_npy;
+
 
 #[derive(Parser, Debug)]
 #[clap(name = "PerlinNoise CLI")]
@@ -10,7 +11,7 @@ use indicatif::{ProgressBar, ProgressStyle};
 #[clap(about = "A simple CLI to generate perlin noise")]
 struct Cli {
     /// Width of the grid
-    #[clap(short = 'w', long = "width", default_value = "1080")]
+    #[clap(short = 'w', long = "width", default_value = "1080")]	
     width: i32,
 
     /// Height of the grid
@@ -35,7 +36,7 @@ struct Cli {
 }
 
 
-fn main() -> io::Result<()> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::parse();
 
     // let seed: u64 = 1337;
@@ -79,18 +80,27 @@ fn main() -> io::Result<()> {
     bar.finish_with_message("Completed");
 
     if let Some(output) = perlin::rescale(result) {
+        let array = Array::from_shape_vec((width as usize, height as usize), output).unwrap();
         let file_path = format!("{}", args.name);
         println!("Saving output to: {}", file_path);
-        let mut file = File::create(file_path)?;
-        for x in 0..width {
-            for y in 0..height {
-                let index : usize = (y * width + x) as usize;
-                write!(file, "{} ", output[index])?;
-            }
-            write!(file, "\n")?;
-        }
+        write_npy(file_path, &array)?;
     } else {
         println!("No result vector provided!");
     }
+
+    //if let Some(output) = perlin::rescale(result) {
+    //    let file_path = format!("{}", args.name);
+    //    println!("Saving output to: {}", file_path);
+    //    let mut file = File::create(file_path)?;
+    //    for x in 0..width {
+    //        for y in 0..height {
+    //            let index : usize = (y * width + x) as usize;
+    //            write!(file, "{} ", output[index])?;
+    //        }
+    //        write!(file, "\n")?;
+    //    }
+    //} else {
+    //    println!("No result vector provided!");
+    //}
     Ok(())
 }

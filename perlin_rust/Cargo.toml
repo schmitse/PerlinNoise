@@ -8,3 +8,5 @@ rand = "0.8"
 nalgebra = "0.30"
 clap = { version = "4.0", features = ["derive"] }
 indicatif = "0.16"
+ndarray = "0.15.6"
+ndarray-npy = "0.8.1"
