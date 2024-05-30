@@ -15,7 +15,12 @@ def main() -> None:
     if not os.path.exists(args.name):
         raise FileNotFoundError(f'No such file or directory: {args.name}')
 
-    data = np.genfromtxt(args.name)
+    if args.name.endswith('.txt'):
+        data = np.genfromtxt(args.name)
+    elif args.name.endswith('.npy'):
+        data = np.load(args.name)
+    else:
+        raise ValueError(f'File type not understood: {args.name}')
     yy, xx = data.shape
     fig, ax = plt.subplots(figsize=(xx / 170, yy / 170), subplot_kw={"projection": "3d"})
 
